@@ -1,42 +1,42 @@
-#Py-Trail
+Py-Trail (Modular Version)
 
-A lightweight, terminal-based survival game inspired by the classic Oregon Trail.
-You are a pioneer traveling westward, making daily choices to survive the journey, manage resources, and overcome random challenges.
+Py-Trail is a Python reimagining of the classic Oregon Trail, built as a text-based terminal game.
+This branch contains the modular refactor: the codebase is split into multiple files for easier maintenance, with added save/load functionality and unit tests.
 
-🎮 Features
+📂 Project Structure
 
-Core Mechanics
+pytrail/
+• main.py – Entry point, intro + game loop
+• player.py – Player dataclass, save/load helpers
+• actions.py – Travel, rest, hunt, shop, change pace
+• events.py – Random events, consumption, end checks
+• ui.py – Menus, prompts, status display
+• constants.py – Game constants (distances, prices, etc.)
+• tests/ – Unit tests (pytest)
+• test_player.py
+• test_actions.py
+• test_events.py
 
-Travel, rest, hunt, change pace, shop at trading posts, and check your status.
+🎮 Gameplay
 
-Manage health, food, ammo, med kits, wheels, and cash.
+Travel – Move forward, consume food, risk illness or wagon damage
 
-Random Events
+Rest – Recover health, spend time and food
 
-Illness, broken wheels, bandit raids, vermin, and lucky finds.
+Hunt – Spend ammo to gather food
 
-Hunting Mini-game
+Change Pace – Choose between steady, strenuous, or grueling travel
 
-Spend ammo and test your reflexes to gather food.
+Shop – Visit trading posts to buy supplies
 
-Dynamic Journey
+Status – Check inventory, health, and progress
 
-2,000 miles to travel with daily decisions affecting survival.
+Save/Load – Save progress to savegame.json and resume later
 
-Replayability
+Win by reaching 2,000 miles to the Willamette Valley.
+Lose if your health reaches 0.
 
-Random outcomes ensure no two runs are the same.
+▶️ Running the Game
 
-🛠️ Requirements
-
-Python 3.8+
-
-No external libraries required (uses only the Python standard library).
-
-▶️ How to Play
-
-Clone or download the repository.
-
-Save the game file as main.py.
-
-Run from terminal:
+Clone the repo and switch to the modular branch
+git clone https://github.com/Das-Panda/pytrail.git
