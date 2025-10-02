@@ -1,22 +1,8 @@
-import random
-from player import Player, save_game, load_game
+from player import Player, save_game, load_game, PartyMember
 from ui import print_status, prompt_choice
 from actions import travel, rest, hunt, choose_pace, shop
 from events import random_event, consume_basics, check_end
-
-def main_menu(p):
-    print_status(p)
-    print("Actions:")
-    print(" 1) travel")
-    print(" 2) rest")
-    print(" 3) hunt")
-    print(" 4) pace")
-    print(" 5) shop")
-    print(" 6) status")
-    print(" 7) save game")
-    print(" 8) load game")
-    print(" 9) quit")
-    return prompt_choice("Choose", [str(i) for i in range(1, 10)])
+import random
 
 def game_loop(p):
     print(f"\nWelcome, {p.name}. You have {p.miles_remaining} miles to travel.\n")
@@ -43,11 +29,33 @@ def game_loop(p):
         if check_end(p):
             break
 
+def main_menu(p):
+    print_status(p)
+    print("Actions:")
+    print(" 1) travel")
+    print(" 2) rest")
+    print(" 3) hunt")
+    print(" 4) pace")
+    print(" 5) shop")
+    print(" 6) status")
+    print(" 7) save game")
+    print(" 8) load game")
+    print(" 9) quit")
+    return prompt_choice("Choose", [str(i) for i in range(1, 10)])
+
 def intro() -> Player:
     print("==== PY-TRAIL ====")
     print("A lightweight Oregon Trail–style terminal game.\n")
-    name = input("Traveler, what is your name? ").strip() or "Traveler"
-    return Player(name=name)
+    name = input("Leader, what is your name? ").strip() or "Leader"
+    p = Player(name=name)
+
+    # Add party members
+    num = int(input("How many companions will join you (max 4)? ") or "2")
+    for i in range(num):
+        cname = input(f"Enter name for companion {i+1}: ").strip() or f"Companion{i+1}"
+        p.party.append({"name": cname, "health": 100, "alive": True})
+
+    return p
 
 if __name__ == "__main__":
     random.seed()

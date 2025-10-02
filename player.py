@@ -1,6 +1,18 @@
-import json
 from dataclasses import dataclass, field, asdict
+import json
 from constants import TOTAL_MILES, SAVE_FILE
+
+@dataclass
+class PartyMember:
+    name: str
+    health: int = 100
+    alive: bool = True
+
+    def apply_damage(self, dmg: int):
+        self.health -= dmg
+        if self.health <= 0:
+            self.alive = False
+            self.health = 0
 
 @dataclass
 class Player:
@@ -16,18 +28,21 @@ class Player:
     pace: str = "steady"
     alive: bool = True
     messages: list = field(default_factory=list)
+    party: list = field(default_factory=list)  # NEW: companions
 
     @property
     def miles_remaining(self) -> int:
         return max(0, TOTAL_MILES - self.miles_traveled)
 
     def to_dict(self):
-        return asdict(self)
+        d = asdict(self)
+        return d
 
     @classmethod
     def from_dict(cls, data):
         return cls(**data)
 
+# ---------------- Save/Load ----------------
 def save_game(p: Player):
     with open(SAVE_FILE, "w") as f:
         json.dump(p.to_dict(), f, indent=2)
