@@ -1,79 +1,86 @@
-Py-Trail (Party System Version)
+Py-Trail
 
-Py-Trail is a Python reimagining of the classic Oregon Trail, built as a text-based terminal game.
-This branch introduces a party system: you now travel with companions who have their own health, can fall ill, consume food, and may die along the journey.
+A lightweight, Oregon Trail–style text adventure written in Python. You take on the role of a wagon leader guiding your party westward. Manage your food, supplies, and companions while facing random events, hunting, and river crossings.
 
-📂 Project Structure
+This branch includes the new Party System and Profanity Filter milestone.
 
-pytrail/
-• main.py – Entry point, intro, and game loop
-• player.py – Player and PartyMember data models, save/load helpers
-• actions.py – Travel, rest, hunt, shop, change pace
-• events.py – Random events, illness, starvation, end checks
-• ui.py – Menus, prompts, and status display
-• constants.py – Game constants (distances, prices, illnesses, etc.)
-• tests/ – Unit tests (pytest)
+Features
 
-🎮 Gameplay
+Core game loop with actions: travel, rest, hunt, change pace, shop, check status, save/load, and quit.
 
-Travel – Move forward, consume food, risk illness or wagon damage
+Random events like sickness, resource loss, or accidents.
 
-Rest – Recover health, spend time and food
+Landmarks including forts and rivers, with choices for crossing or resupplying.
 
-Hunt – Spend ammo to gather food
+Save/load system using JSON files.
 
-Change Pace – Switch between steady, strenuous, or grueling travel
+Party system:
 
-Shop – Buy supplies at trading posts
+Create up to 4 companions in addition to the leader.
 
-Status – Check inventory, health, and progress
+Each party member has health and a living/deceased status.
 
-Save/Load – Save progress to a file and resume later
+Food consumption scales with party size.
 
-Party System – Companions join your journey, consume food, can fall ill, and may die
+Profanity filter:
 
-Win by reaching 2,000 miles to the Willamette Valley.
-Lose if all members of your party, including the leader, die.
+Prevents inappropriate names for the leader and party members.
 
-▶️ Running the Game
+Automatically replaces disallowed names with "Traveler."
 
-Clone the repository and switch to the party-system branch
+Prints a live warning and logs an event in the status screen.
 
-Run the game with python main.py
+How to Play
 
-At startup you can choose:
-• new → start a fresh game and recruit companions
-• load → resume from a previous save
+Start the game with:
+python main.py
 
-🧪 Running Tests
+Choose whether to start a new game or load a saved game.
 
-The tests cover save/load, core actions, events, and the new party mechanics.
+Enter your name and add up to 4 companions. If a name is invalid, it will be replaced and a warning will be shown.
 
-Install pytest with pip install pytest
-Run tests with pytest
+Each turn, choose from the menu of actions:
 
-✨ Features in Party System Version
+Travel to progress toward Oregon.
 
-Party members with individual health values
+Rest to recover health (uses food).
 
-Companions consume food each day
+Hunt for food (uses ammo).
 
-Illness and starvation can affect any member
+Change pace to alter miles per day and risk.
 
-Companions can die during the journey
+Shop at forts for supplies.
 
-Game ends if all travelers perish
+View party status.
 
-Modular structure with unit tests
+Save or load your game.
 
-🚀 Roadmap / Possible Enhancements
+Quit at any time.
 
-Individual traits for companions (strength, hunting skill, resistance to illness)
+Requirements
 
-Events that target or involve specific companions
+Python 3.8+
 
-Morale system (party health affected by deaths or food shortages)
+Runs in a terminal (Windows PowerShell, macOS Terminal, Linux shell).
 
-Expanded landmark and river crossing challenges
+Current Branch: party-system
 
-Difficulty settings and expanded random events
+This branch represents the milestone with:
+
+Companion party members
+
+Expanded status screen
+
+Profanity filter with live warnings
+
+Updated save/load to store party data
+
+Next Planned Enhancements
+
+Party member health loss from random events and travel.
+
+Expanded landmark interactions.
+
+More diverse random events (weather, wagon damage).
+
+Endgame scoring system based on survivors and supplies.
