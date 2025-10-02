@@ -1,33 +1,9 @@
-from player import Player, save_game, load_game, PartyMember
-from ui import print_status, prompt_choice
+from landmarks import check_landmark, handle_river, handle_fort
 from actions import travel, rest, hunt, choose_pace, shop
+from ui import print_status, prompt_choice
+from player import Player, save_game, load_game
 from events import random_event, consume_basics, check_end
 import random
-
-def game_loop(p):
-    print(f"\nWelcome, {p.name}. You have {p.miles_remaining} miles to travel.\n")
-    while True:
-        choice = main_menu(p)
-        if choice == "1": travel(p)
-        elif choice == "2": rest(p)
-        elif choice == "3": hunt(p)
-        elif choice == "4": choose_pace(p)
-        elif choice == "5": shop(p)
-        elif choice == "6": print_status(p); continue
-        elif choice == "7": save_game(p); continue
-        elif choice == "8":
-            loaded = load_game()
-            if loaded: p = loaded
-            continue
-        elif choice == "9":
-            print("Goodbye!")
-            break
-
-        consume_basics(p)
-        random_event(p)
-
-        if check_end(p):
-            break
 
 def main_menu(p):
     print_status(p)
@@ -43,19 +19,65 @@ def main_menu(p):
     print(" 9) quit")
     return prompt_choice("Choose", [str(i) for i in range(1, 10)])
 
+def game_loop(p):
+    print(f"\nWelcome, {p.name}. You have {p.miles_remaining} miles to travel.\n")
+    while True:
+        choice = main_menu(p)
+        if choice == "1":
+            travel(p)
+            lm = check_landmark(p)
+            if lm:
+                if lm["type"] == "fort":
+                    handle_fort(p, lm)
+                elif lm["type"] == "river":
+                    handle_river(p, lm)
+                elif lm["type"] == "end":
+                    print("\n🎉 You’ve reached the Willamette Valley! The journey is over!")
+                    break
+        elif choice == "2":
+            rest(p)
+        elif choice == "3":
+            hunt(p)
+        elif choice == "4":
+            choose_pace(p)
+        elif choice == "5":
+            shop(p)
+        elif choice == "6":
+            print_status(p)
+            continue
+        elif choice == "7":
+            save_game(p)
+            continue
+        elif choice == "8":
+            loaded = load_game()
+            if loaded:
+                p = loaded
+            continue
+        elif choice == "9":
+            print("Goodbye!")
+            break
+
+        consume_basics(p)
+        random_event(p)
+
+        if check_end(p):
+            break
+
 def intro() -> Player:
     print("==== PY-TRAIL ====")
     print("A lightweight Oregon Trail–style terminal game.\n")
+
     name = input("Leader, what is your name? ").strip() or "Leader"
-    p = Player(name=name)
+    player = Player(name=name)
 
-    # Add party members
-    num = int(input("How many companions will join you (max 4)? ") or "2")
-    for i in range(num):
-        cname = input(f"Enter name for companion {i+1}: ").strip() or f"Companion{i+1}"
-        p.party.append({"name": cname, "health": 100, "alive": True})
+    print("\nNow, let’s add your companions.")
+    for i in range(1, 5):  # up to 4 companions
+        cname = input(f"Enter name for companion {i} (leave blank to skip): ").strip()
+        if not cname:
+            break
+        player.add_party_member(cname)
 
-    return p
+    return player
 
 if __name__ == "__main__":
     random.seed()
